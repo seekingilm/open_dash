@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as XLSX from 'xlsx';
 import Charts from './Charts'
 import World from '../components/World'
@@ -47,6 +47,17 @@ function Sheet() {
     }
   }
 
+  useEffect(() => {
+    fetch('http://127.0.0.1:5000/data', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dataJSON)
+    })
+  }, [dataJSON])
+
   const handleFileSubmit = (e) => {
     e.preventDefault();
 
@@ -56,6 +67,7 @@ function Sheet() {
       const worksheet = workbook.Sheets[worksheetName];
       const data = XLSX.utils.sheet_to_json(worksheet);
       setDataJSON(data)
+      
       setExcelData(data.slice(0, 10));
     }
   }
