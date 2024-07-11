@@ -1,18 +1,9 @@
 import { useState } from "react";
 import * as XLSX from 'xlsx';
-import {
-  FormControl,
-  FormLabel,
-  Button,
-  FormErrorMessage,
-  FormHelperText,
-  Input
-} from '@chakra-ui/react'
-import { Heading } from '@chakra-ui/react'
 import Charts from './Charts'
 import World from '../components/World'
-import Check from '../components/Check'
-import Ipchart from "./Ipchart";
+import Dash from '../components/Dash'
+import Ipchart from "./Ipchart"
 
 function helpLoop(ajson, nameOfColumn) {
   let cleanedUpList = [];
@@ -70,22 +61,23 @@ function Sheet() {
   }
 
   return (
-    <>
-      <div className="wrapper">
-        <Heading as='h3' size='xl' noOfLines={1}>Upload & View Excel Sheets</Heading>
-        <form className="form-group custom-form" onSubmit={handleFileSubmit}>
-          <Input type="file" className="form-control" required onChange={handleFile} />
-          <Button type="submit" className="btn btn-success btn-md">UPLOAD</Button>
+    <div>
+      <div>
+        <h3>Upload & View Excel Sheets</h3>
+        <form onSubmit={handleFileSubmit}>
+          <input type="file" required onChange={handleFile} />
+          <button type="submit">UPLOAD</button>
           {typeError && (
-            <div className="alert alert-danger" role="alert">{typeError}</div>
+            <div role="alert">{typeError}</div>
           )}
         </form>
 
         {/* view data */}
+
         <div className="viewer">
           {excelData ? (
-            <div className="table-responsive">
-              <table className="table">
+            <div>
+              <table>
                 <thead>
                   <tr>
                     {Object.keys(excelData[0]).map((key) => (
@@ -118,11 +110,7 @@ function Sheet() {
           }
         </div>
       </div>
-      <Charts />
-      <Ipchart />
-      <Check />
-      <World />
-    </>
+    </div>
   );
 }
 

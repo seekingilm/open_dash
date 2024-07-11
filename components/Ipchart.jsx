@@ -1,4 +1,4 @@
-import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 
 const ipReportsArray = [
   { ip: "192.168.1.1", reports: 150 },
@@ -11,8 +11,8 @@ const ipReportsArray = [
 function Ipchart() {
   return (
       <BarChart
-        width={700}
-        height={300}
+        width={500}
+        height={200}
         data={ipReportsArray}
         margin={{
           top: 5,
@@ -30,8 +30,5 @@ function Ipchart() {
       </BarChart>
   );
 }
-
-
-
 
 export default Ipchart

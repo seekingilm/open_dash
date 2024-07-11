@@ -1,12 +1,9 @@
-import { ChakraProvider } from '@chakra-ui/react'
-import Sheet from '../components/Sheet'
-import Charts from '../components/Charts'
+import Dash from '../components/Dash'
+import Check from '../components/Check'
 
 function App() {
   return (
-    <ChakraProvider>
-      <Sheet/>
-    </ChakraProvider>
+      <Dash />
   )
 }
 
