@@ -72,8 +72,23 @@ def extract(excel_data):
         except:
             nothing()
 
-    print(fused_lists)
+    fused_lists = reduce_down(fused_lists)
     return fused_lists
+
+def reduce_down(data):
+    country_abuse_dict = {}
+
+    for entry in data:
+        country = entry["country"]
+        abuse = entry["abuse"]
+
+        if country in country_abuse_dict:
+            country_abuse_dict[country] += abuse
+        else:
+            country_abuse_dict[country] = abuse
+
+    return country_abuse_dict
+
 
 def extract_values(obj_list, key):
     return_list = []

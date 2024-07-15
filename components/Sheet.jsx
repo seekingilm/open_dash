@@ -1,9 +1,5 @@
 import { useState, useEffect } from "react";
 import * as XLSX from 'xlsx';
-import Charts from './Charts'
-import World from '../components/World'
-import Dash from '../components/Dash'
-import Ipchart from "./Ipchart"
 
 function helpLoop(ajson, nameOfColumn) {
   let cleanedUpList = [];
@@ -19,6 +15,7 @@ function helpLoop(ajson, nameOfColumn) {
 function Sheet() {
   const [excelFile, setExcelFile] = useState(null);
   const [dataJSON, setDataJSON] = useState(null);
+  const [returnData, setReturnData] = useState(null);
   const [typeError, setTypeError] = useState(null);
 
   const [excelData, setExcelData] = useState(null);
@@ -46,18 +43,7 @@ function Sheet() {
       console.log('Please select your file');
     }
   }
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:5000/data', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dataJSON)
-    })
-  }, [dataJSON])
-
+  
   const handleFileSubmit = (e) => {
     e.preventDefault();
 
