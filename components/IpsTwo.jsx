@@ -4,10 +4,27 @@ import { mockBarData as data } from "../data/mockData";
 import { useState, useEffect } from "react";
 
 function IpsTwo({ isDashboard = true, barData} ){
-  const theme = useTheme();
-  const [apiData, setApiData] = useState(null);
+  const [apiData, setApiData] = useState([])
 
-  console.log(apiData)
+function sumAbuseByCountry(arr) {
+  const result = {};
+
+  arr.forEach(obj => {
+    const country = obj.country;
+    const abuse = obj.abuse;
+
+    if (result[country] === undefined) {
+      result[country] = abuse;
+    } else {
+      result[country] += abuse;
+    }
+  });
+
+  return Object.keys(result).map(country => ({
+    country: country,
+    abuse: result[country]
+  }));
+} 
 
   useEffect(() => {
     fetch('http://127.0.0.1:5000/data', {
@@ -19,15 +36,16 @@ function IpsTwo({ isDashboard = true, barData} ){
       body: JSON.stringify(barData)
     }).then(res => res.json()).
       then(res => { 
-        console.log(res)
-        setApiData(res)
+        if(res.constructor === Array){
+          setApiData(sumAbuseByCountry(res))
+        }
       })
   }, [barData])
 
 
   return (
     <ResponsiveBar
-      data={data}
+      data={apiData}
       theme={{
         axis: {
           domain: {
@@ -93,7 +111,7 @@ function IpsTwo({ isDashboard = true, barData} ){
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "country", // changed
+        legend:  "country", // changed
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -101,7 +119,7 @@ function IpsTwo({ isDashboard = true, barData} ){
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: isDashboard ? undefined : "food", // changed
+        legend: "food", // changed
         legendPosition: "middle",
         legendOffset: -40,
       }}
