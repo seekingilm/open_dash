@@ -60,11 +60,14 @@ def extract(excel_data):
         )
         response_dict = json.loads(response.text)
         print(response_dict)
-        if "countryCode" in response_dict["data"] and "abuseConfidenceScore" in response_dict["data"]:
+       
+        try:
             fused_lists.append(
                 {"country": response_dict["data"]["countryCode"], "abuse": response_dict["data"]["abuseConfidenceScore"],}
             )
-    
+        except Exception:
+           print('Triggerd') 
+
     return fused_lists
 
 

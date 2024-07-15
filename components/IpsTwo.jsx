@@ -119,7 +119,7 @@ function sumAbuseByCountry(arr) {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "food", // changed
+        legend: "abuse", // changed
         legendPosition: "middle",
         legendOffset: -40,
       }}

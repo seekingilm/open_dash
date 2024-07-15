@@ -251,7 +251,7 @@ function Dash() {
                     height: 400,
                   }}
                 >
-                  {/*<Geo geoData={returnData} isDashboard={true} />*/}
+                  <Geo geoData={returnData} isDashboard={true} />
                 </Paper>
               </Grid>
               {/* Recent Deposits */}
