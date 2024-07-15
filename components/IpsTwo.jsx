@@ -1,9 +1,13 @@
+import { useTheme } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 import { mockBarData as data } from "../data/mockData";
 import { useState, useEffect } from "react";
 
 function IpsTwo({ isDashboard = true, barData} ){
-  const [apiData, setApiData] = useState(data);
+  const theme = useTheme();
+  const [apiData, setApiData] = useState(null);
+
+  console.log(apiData)
 
   useEffect(() => {
     fetch('http://127.0.0.1:5000/data', {
@@ -15,7 +19,7 @@ function IpsTwo({ isDashboard = true, barData} ){
       body: JSON.stringify(barData)
     }).then(res => res.json()).
       then(res => { 
-        console.log("useEffect called " + JSON.stringify(res))
+        console.log(res)
         setApiData(res)
       })
   }, [barData])
@@ -23,7 +27,7 @@ function IpsTwo({ isDashboard = true, barData} ){
 
   return (
     <ResponsiveBar
-      data={apiData}
+      data={data}
       theme={{
         axis: {
           domain: {
