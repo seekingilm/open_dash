@@ -265,16 +265,16 @@ function GeographyChart({ isDashboard = false, geoData }) {
 
     let returnGeoData = []
 
-    workData.forEach((item) => {
-      if(item){
-        console.log(item)
-        returnGeoData.push({ "id": countryCodes[item['country']], "value": item['abuse'] })
-      }
-    });
+    if (workData.constructor === Array) {
+      workData.forEach((item) => {
+        if (item) {
+          returnGeoData.push({ "id": countryCodes[item['country']], "value": item['abuse'] })
+        }
+      });
 
 
-    console.log("raw data is " + JSON.stringify(workData))
-    console.log("returnGeoData is " + JSON.stringify(returnGeoData))
+    }
+
     return returnGeoData
   }
 
@@ -290,7 +290,6 @@ function GeographyChart({ isDashboard = false, geoData }) {
       body: JSON.stringify(geoData)
     }).then(res => res.json())
       .then(res => {
-        console.log("The response is " + cleanUpAndMakeGeoData(res))
         setApiData(cleanUpAndMakeGeoData(res))
       })
   }, [geoData])

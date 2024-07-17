@@ -21,6 +21,14 @@ def data():
 
     return "200"
 
+@app.route("/pie", methods=["GET", "POST"])
+@cross_origin()
+def pie():
+    if request.method == "POST":
+        data = make_pie_data(request.json)
+        return data
+
+    return "200"
 
 def make_abuse_countries(excel_data):
     if type(excel_data) is not list:
@@ -33,8 +41,8 @@ def make_abuse_countries(excel_data):
     countries = []
     country_name = []
     abuse = []
-    #key = "9caf023f75484c2315dc7cac2fa8f980e2728d1a0f69ccdc679f722c694185349e82b4be5e20c76c"
-    key = "9e19a670e5a990c979aef2cd3f66e0a5185d2cdfb3db534d6b5a7b5f7573b35aacb64ac6bf88ac4f"
+    key = "9caf023f75484c2315dc7cac2fa8f980e2728d1a0f69ccdc679f722c694185349e82b4be5e20c76c"
+    #key = "9e19a670e5a990c979aef2cd3f66e0a5185d2cdfb3db534d6b5a7b5f7573b35aacb64ac6bf88ac4f"
 
     fused_lists = []
 
@@ -61,19 +69,20 @@ def make_abuse_countries(excel_data):
 
     return fused_lists
 
-def make_geo_countries(excel_data): #use this in case you need for API.
+def make_pie_data(excel_data): #use this in case you need for API.
     if type(excel_data) is not list:
-        return '205'
+        print(f'Type of list is {type(excel_data)}')
+        print(f'The excel data is {excel_data}')
+        return '206'
 
     ip_list = extract_values(excel_data, "IPV4") 
-    urls = extract_values(excel_data, "FQDN") 
 
     dates = []
     countries = []
     country_name = []
     abuse = []
-    #key = "9caf023f75484c2315dc7cac2fa8f980e2728d1a0f69ccdc679f722c694185349e82b4be5e20c76c"
-    key = "9e19a670e5a990c979aef2cd3f66e0a5185d2cdfb3db534d6b5a7b5f7573b35aacb64ac6bf88ac4f"
+    key = "9caf023f75484c2315dc7cac2fa8f980e2728d1a0f69ccdc679f722c694185349e82b4be5e20c76c"
+    #key = "9e19a670e5a990c979aef2cd3f66e0a5185d2cdfb3db534d6b5a7b5f7573b35aacb64ac6bf88ac4f"
 
     fused_lists = []
 
@@ -93,11 +102,12 @@ def make_geo_countries(excel_data): #use this in case you need for API.
        
         try:
             fused_lists.append(
-                {"country": response_dict["data"]["countryCode"], "abuse": response_dict["data"]["abuseConfidenceScore"],}
+                {"id": response_dict["data"]["usageType"], "value": response_dict["data"]["abuseConfidenceScore"],}
             )
         except Exception:
-           print('Failed to add item to the return list') 
+           print('Failed to add item to the return list in pie') 
 
+    return fused_lists
 
 
 

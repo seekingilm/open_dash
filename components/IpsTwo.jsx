@@ -3,7 +3,7 @@ import { ResponsiveBar } from "@nivo/bar";
 import { mockBarData as data } from "../data/mockData";
 import { useState, useEffect } from "react";
 
-function IpsTwo({ isDashboard = true, barData} ){
+function IpsTwo({barData}){
   const [apiData, setApiData] = useState([])
 
 function sumAbuseByCountry(arr) {
@@ -111,7 +111,7 @@ function sumAbuseByCountry(arr) {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend:  "country", // changed
+        legend:  "Country", // changed
         legendPosition: "middle",
         legendOffset: 32,
       }}
@@ -119,7 +119,7 @@ function sumAbuseByCountry(arr) {
         tickSize: 5,
         tickPadding: 5,
         tickRotation: 0,
-        legend: "abuse", // changed
+        legend: "Abuse Score", // changed
         legendPosition: "middle",
         legendOffset: -40,
       }}

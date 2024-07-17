@@ -275,7 +275,7 @@ function Dash() {
                     height: 240,
                   }}
                 >
-                  <IpTwo barData={returnData} />
+                  <Ipchart pieData={returnData} />
                 </Paper>
               </Grid>
 

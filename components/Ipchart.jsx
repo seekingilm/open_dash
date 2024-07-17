@@ -1,34 +1,73 @@
-import { BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+import { ResponsivePie } from '@nivo/pie'
+import { useState, useEffect } from "react";
 
-const ipReportsArray = [
-  { ip: "192.168.1.1", reports: 150 },
-  { ip: "192.168.1.2", reports: 80 },
-  { ip: "192.168.1.3", reports: 120 },
-  { ip: "192.168.1.4", reports: 200 },
-  { ip: "192.168.1.5", reports: 90 }
-];
+function Ipchart({ pieData }) {
+  const [apiData, setApiData] = useState([])
 
-function Ipchart() {
+  function sumAbuseByCountry(arr) {
+    const result = {};
+
+    arr.forEach(obj => {
+      const country = obj.country;
+      const abuse = obj.abuse;
+
+      if (result[country] === undefined) {
+        result[country] = abuse;
+      } else {
+        result[country] += abuse;
+      }
+    });
+
+    return Object.keys(result).map(country => ({
+      country: country,
+      abuse: result[country]
+    }));
+  }
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:5000/pie', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(pieData)
+    }).then(res => res.json()).
+      then(res => {
+        if (res.constructor === Array) {
+          console.log(res)
+          setApiData(res)
+        }
+      })
+  }, [pieData])
+
+
   return (
-      <BarChart
-        width={500}
-        height={200}
-        data={ipReportsArray}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="ip" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="reports" fill="#8884d8" activeBar={<Rectangle fill="red" stroke="blue" />} />
-      </BarChart>
-  );
+    <ResponsivePie
+      data={apiData}
+      margin={{ top: 30, right: 40, bottom: 30, left: 40}}
+      innerRadius={0.5}
+      padAngle={0.7}
+      cornerRadius={3}
+      activeOuterRadiusOffset={8}
+      indexBy="Usage Type"
+      borderWidth={1}
+      arcLinkLabelsSkipAngle={10}
+      arcLinkLabelsTextColor="#333333"
+      arcLinkLabelsThickness={2}
+      arcLabelsSkipAngle={10}
+      isInteractive={false}
+      arcLabelsTextColor={{
+        from: 'color',
+        modifiers: [
+          [
+            'darker',
+            2
+          ]
+        ]
+      }}
+    />
+  )
 }
 
 export default Ipchart
