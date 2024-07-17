@@ -1,4 +1,6 @@
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import { DataGrid } from '@mui/x-data-grid';
+
 import * as XLSX from "xlsx";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
@@ -22,6 +24,9 @@ import Ipchart from "./Ipchart";
 import IpTwo from "./IpsTwo";
 import World from "./World";
 import Geo from "./Geochart";
+import Tab_display from './TableDisplay'
+import {mockDataTeam as data} from '../data/mockData'
+import TableDisplay from "./TableDisplay";
 
 function Sheet(props) {
   const [excelFile, setExcelFile] = useState(null);
@@ -122,7 +127,7 @@ function Dash() {
 
   const [open, setOpen] = useState(true);
   const [returnData, setReturnData] = useState(null);
-  
+
   const getData = (data) => {
     console.log("setting returnData to " + JSON.stringify(data));
     setReturnData(data);
@@ -176,7 +181,7 @@ function Dash() {
     }),
   }));
 
-  return (
+    return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
@@ -263,7 +268,7 @@ function Dash() {
                     height: 240,
                   }}
                 >
-                  <IpTwo barData={returnData} /> 
+                  <IpTwo barData={returnData} />
                 </Paper>
               </Grid>
 
@@ -278,8 +283,9 @@ function Dash() {
                   <Ipchart pieData={returnData} />
                 </Paper>
               </Grid>
-
               {/* Recent Orders */}
+              {console.log(data)}
+              <TableDisplay tableData={returnData}/>
             </Grid>
           </Container>
         </Box>
