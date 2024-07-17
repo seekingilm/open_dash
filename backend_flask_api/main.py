@@ -7,9 +7,6 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config["CORS_HEADERS"] = "Content-Type"
 
-post_json = {}
-
-
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
@@ -19,25 +16,18 @@ def hello_world():
 @cross_origin()
 def data():
     if request.method == "POST":
-        data = extract(request.json)
+        data = make_abuse_countries(request.json)
         return data
 
     return "200"
 
 
-def extract(excel_data):
+def make_abuse_countries(excel_data):
     if type(excel_data) is not list:
         return '205'
 
     ip_list = extract_values(excel_data, "IPV4") 
     urls = extract_values(excel_data, "FQDN") 
-
-    print(ip_list)
-    print(urls)
-
-    for i in range(len(urls)):
-        if type(urls[i]) == str:
-            urls[i] = urls[i].replace("[.]", ".")
 
     dates = []
     countries = []
@@ -58,6 +48,7 @@ def extract(excel_data):
         response = requests.request(
             method="GET", url=url, headers=headers, params=querystring
         )
+
         response_dict = json.loads(response.text)
         print(response_dict)
        
@@ -66,27 +57,9 @@ def extract(excel_data):
                 {"country": response_dict["data"]["countryCode"], "abuse": response_dict["data"]["abuseConfidenceScore"],}
             )
         except Exception:
-           print('Triggerd') 
+           print('Failed to add item to the return list') 
 
     return fused_lists
-
-
-def reduce_down(data):
-    country_abuse_dict = {}
-
-    for x in data:
-        for entry in x:
-            country = entry["country"]
-            abuse = entry["abuse"]
-
-            if country in country_abuse_dict:
-                country_abuse_dict[country] += abuse
-            else:
-                country_abuse_dict[country] = abuse
-    print(country_abuse_dict)
-
-    return country_abuse_dict
-
 
 def extract_values(obj_list, key):
     return_list = []
@@ -97,6 +70,8 @@ def extract_values(obj_list, key):
                 return_list.append(item[key])
 
         return return_list
-
-def nothing():
-    return 0
+def clean_urls(urls):
+    for i in range(len(urls)):
+            if type(urls[i]) == str:
+                urls[i] = urls[i].replace("[.]", ".")
+    return urls
