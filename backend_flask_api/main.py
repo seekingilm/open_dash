@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS, cross_origin
 import json
+from time import sleep
 import requests
 
 app = Flask(__name__)
@@ -51,8 +52,7 @@ def make_abuse_countries(excel_data):
     countries = []
     country_name = []
     abuse = []
-    key = "9caf023f75484c2315dc7cac2fa8f980e2728d1a0f69ccdc679f722c694185349e82b4be5e20c76c"
-    #key = "9e19a670e5a990c979aef2cd3f66e0a5185d2cdfb3db534d6b5a7b5f7573b35aacb64ac6bf88ac4f"
+    key = "2e4dde3f009ff333f0599006f784841f53991c7b9323cfa47900c8497bc1e84e775d7cfc81913e43"
 
     fused_lists = []
 
@@ -63,6 +63,7 @@ def make_abuse_countries(excel_data):
         querystring = {"ipAddress": ip_list[a], "maxAgeInDays": "90"}
         headers = {"Accept": "application/json", "Key": key}
 
+        sleep(1)
         response = requests.request(
             method="GET", url=url, headers=headers, params=querystring
         )
@@ -91,8 +92,7 @@ def make_pie_data(excel_data): #use this in case you need for API.
     countries = []
     country_name = []
     abuse = []
-    key = "9caf023f75484c2315dc7cac2fa8f980e2728d1a0f69ccdc679f722c694185349e82b4be5e20c76c"
-    #key = "9e19a670e5a990c979aef2cd3f66e0a5185d2cdfb3db534d6b5a7b5f7573b35aacb64ac6bf88ac4f"
+    key = "2e4dde3f009ff333f0599006f784841f53991c7b9323cfa47900c8497bc1e84e775d7cfc81913e43"
 
     fused_lists = []
 
@@ -103,6 +103,7 @@ def make_pie_data(excel_data): #use this in case you need for API.
         querystring = {"ipAddress": ip_list[a], "maxAgeInDays": "90"}
         headers = {"Accept": "application/json", "Key": key}
 
+        sleep(1)
         response = requests.request(
             method="GET", url=url, headers=headers, params=querystring
         )
@@ -129,8 +130,7 @@ def make_table_data(excel_data):
     countries = []
     country_name = []
     abuse = []
-    key = "9caf023f75484c2315dc7cac2fa8f980e2728d1a0f69ccdc679f722c694185349e82b4be5e20c76c"
-    #key = "9e19a670e5a990c979aef2cd3f66e0a5185d2cdfb3db534d6b5a7b5f7573b35aacb64ac6bf88ac4f"
+    key = "2e4dde3f009ff333f0599006f784841f53991c7b9323cfa47900c8497bc1e84e775d7cfc81913e43"
 
     fused_lists = []
 
@@ -141,6 +141,9 @@ def make_table_data(excel_data):
         querystring = {"ipAddress": ip_list[a], "maxAgeInDays": "90"}
         headers = {"Accept": "application/json", "Key": key}
 
+        
+
+        sleep(1)
         response = requests.request(
             method="GET", url=url, headers=headers, params=querystring
         )
@@ -150,7 +153,7 @@ def make_table_data(excel_data):
        
         try:
             fused_lists.append(
-                {"id": response_dict["data"]["ipAddress"],"ip": response_dict["data"]["ipAddress"], "abuse": response_dict["data"]["abuseConfidenceScore"], "category":  response_dict["data"]["usageType"],"country":  response_dict["data"]["countryCode"]},
+                {"id": response_dict["data"]["ipAddress"],"ip": response_dict["data"]["ipAddress"],"total": response_dict["data"]["totalReports"],  "abuse": response_dict["data"]["abuseConfidenceScore"], "category":  response_dict["data"]["usageType"],"country":  response_dict["data"]["countryCode"]},
             )
         except Exception:
            print('Failed to add item to the return list in pie') 

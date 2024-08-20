@@ -11,6 +11,7 @@ import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
+import { Input, FormControl, Button } from '@mui/material';
 import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -24,9 +25,9 @@ import Ipchart from "./Ipchart";
 import IpTwo from "./IpsTwo";
 import World from "./World";
 import Geo from "./Geochart";
-import Tab_display from './TableDisplay'
-import {mockDataTeam as data} from '../data/mockData'
+import { mockDataTeam as data } from '../data/mockData'
 import TableDisplay from "./TableDisplay";
+import Threats from "./Threats";
 
 function Sheet(props) {
   const [excelFile, setExcelFile] = useState(null);
@@ -34,8 +35,6 @@ function Sheet(props) {
   const [typeError, setTypeError] = useState(null);
 
   const [excelData, setExcelData] = useState(null);
-  let apiKey =
-    "9caf023f75484c2315dc7cac2fa8f980e2728d1a0f69ccdc679f722c694185349e82b4be5e20c76c";
 
   const handleFile = (e) => {
     let fileTypes = [
@@ -43,6 +42,7 @@ function Sheet(props) {
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "text/csv",
     ];
+
     let selectedFile = e.target.files[0];
 
     if (selectedFile) {
@@ -76,48 +76,23 @@ function Sheet(props) {
     }
   };
   return (
-    <div>
-      <div>
-        <h3>Upload & View Excel Sheets</h3>
+    <Box>
+      <Box>
+        <h3>Upload Excel Sheet</h3>
         <form onSubmit={handleFileSubmit}>
-          <input type="file" required onChange={handleFile} />
-          <button type="submit">UPLOAD</button>
-          {typeError && <div role="alert">{typeError}</div>}
-        </form>
+          <FormControl sx={{ width: '25ch' }}>
+            <Input type="file" required onChange={handleFile} />
+            <Button variant="outlined" m={3} type="submit">Upload</Button>
+            {typeError && <div role="alert">{typeError}</div>}
+          </FormControl>
+        </form >
 
         {/* view data */}
 
-        <div className="viewer">
-          {excelData ? (
-            <div>
-              <table>
-                <thead>
-                  <tr>
-                    {Object.keys(excelData[0]).map((key) => (
-                      <th key={key}>{key}</th>
-                    ))}
-                  </tr>
-                </thead>
 
-                <tbody>
-                  {excelData.map((individualExcelData, index) => (
-                    <tr key={index}>
-                      {Object.keys(individualExcelData).map((key) => (
-                        <td key={key}>{individualExcelData[key]}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div>No File is uploaded yet!</div>
-          )}
-        </div>
-
-        <div>{dataJSON ? <h1>All IPs</h1> : <h6>no data</h6>}</div>
-      </div>
-    </div>
+        <div>{dataJSON ? <h1>All IPs</h1> : <h6>Click Upload Button To Upload Data</h6>}</div>
+      </Box>
+    </Box>
   );
 }
 
@@ -157,7 +132,7 @@ function Dash() {
         }),
         width: theme.spacing(7),
         [theme.breakpoints.up("sm")]: {
-          width: theme.spacing(9),
+          width: theme.spacing(0),
         },
       }),
     },
@@ -181,7 +156,7 @@ function Dash() {
     }),
   }));
 
-    return (
+  return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
@@ -206,6 +181,13 @@ function Dash() {
             <Typography component="h1" variant="h6" noWrap sx={{ flexGrow: 1 }}>
               Dashboard
             </Typography>
+
+            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center'}}>
+              <Typography level="body-sm">Domain</Typography>
+              <Typography level="body-sm">Hashes</Typography>
+              <Typography level="body-sm">Threat Actors</Typography>
+            </Box>
+
             <IconButton color="inherit">
               <Badge badgeContent={0} color="secondary">
                 <NotificationsIcon />
@@ -284,8 +266,10 @@ function Dash() {
                 </Paper>
               </Grid>
               {/* Recent Orders */}
-              {console.log(data)}
-              <TableDisplay tableData={returnData}/>
+              <Grid item xs={12} md={4} lg={12}>
+                {/*<Threats/>*/}
+                <TableDisplay tableData={returnData} />
+              </Grid>
             </Grid>
           </Container>
         </Box>

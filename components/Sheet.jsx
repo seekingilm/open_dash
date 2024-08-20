@@ -61,7 +61,7 @@ function Sheet() {
   return (
     <div>
       <div>
-        <h3>Upload & View Excel Sheets</h3>
+        <h3>Upload</h3>
         <form onSubmit={handleFileSubmit}>
           <input type="file" required onChange={handleFile} />
           <button type="submit">UPLOAD</button>
@@ -71,40 +71,11 @@ function Sheet() {
         </form>
 
         {/* view data */}
-
-        <div className="viewer">
-          {excelData ? (
-            <div>
-              <table>
-                <thead>
-                  <tr>
-                    {Object.keys(excelData[0]).map((key) => (
-                      <th key={key}>{key}</th>
-                    ))}
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {excelData.map((individualExcelData, index) => (
-                    <tr key={index}>
-                      {Object.keys(individualExcelData).map((key) => (
-                        <td key={key}>{individualExcelData[key]}</td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div>No File is uploaded yet!</div>
-          )}
-        </div>
-
         <div>
           {dataJSON ? (
-            <h1>All IPs</h1>
+            <h1>Uploaded</h1>
           ) :
-            <h6>no data</h6>
+            <h6>Submit By Clicking Upload</h6>
           }
         </div>
       </div>

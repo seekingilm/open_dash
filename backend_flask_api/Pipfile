@@ -8,6 +8,7 @@ flask = "*"
 pandas = "*"
 requests = "*"
 flask-cors = "*"
+urllib3 = "*"
 
 [dev-packages]
 

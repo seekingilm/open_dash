@@ -5,16 +5,12 @@ function TableDisplay({ tableData }) {
   const [apiData, setApiData] = useState([])
 
   const columns = [
-    { field: 'ip', headerName: 'IP', width: 200 },
-    { field: 'category', headerName: 'Category Of Abuse', width: 200 },
     { field: 'abuse', headerName: 'Abuse Score', width: 130 },
-    {
-      field: 'country',
-      headerName: 'Country',
-      type: 'number',
-      width: 90,
-    },
-
+    { field: 'ip', headerName: 'IP', width: 200 },
+    { field: 'country', headerName: 'Country', type: 'number', width: 90, },
+    { field: 'category', headerName: 'Category Of Abuse', width: 200 },
+    { field: 'total', headerName: 'Total Reports', width: 130 },
+    
   ];
 
   useEffect(() => {
